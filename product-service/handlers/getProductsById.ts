@@ -1,13 +1,11 @@
-import { APIGatewayProxyHandler } from "aws-lambda";
+import { APIGatewayProxyHandler } from 'aws-lambda';
 
-import ProductsListMock from './productsList.mock.json';
-import { Product } from "./models/Product";
-import { CustomError } from "./utils/CustomError";
+import { CustomError } from './utils/CustomError';
+import { getProductByIdFromDB } from './db/getProductByIdFromDB';
 
 export const getProductsById: APIGatewayProxyHandler = async (event) => {
 
     try {
-
         const { id } = event.pathParameters || {};
 
         if (!/^[0-9a-f]{12}$/.test(id)) {
@@ -39,6 +37,4 @@ export const getProductsById: APIGatewayProxyHandler = async (event) => {
     }
 };
 
-function getProductByIdFromDB(id): Product {
-    return ProductsListMock.find(prod => prod.id === id);
-}
+
