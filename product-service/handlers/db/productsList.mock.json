@@ -1,0 +1,74 @@
+[
+  {
+    "count": 4,
+    "id": "fc73c48a80aa",
+    "year": 2019,
+    "engine": "2.5 Gas",
+    "price": 24000,
+    "imageUrl": "https://www-europe.nissan-cdn.net/content/dam/Nissan/nissan_europe/Configurator/Xtrail/p32r/grade/17TDIEULHD_X-TRAIL_VISIA_AMBER_001_UA.jpg.ximg.l_3_m.smart.jpg",
+    "title": "Nissan X-Trail"
+  },
+  {
+    "count": 6,
+    "id": "fc73c48a80a0",
+    "year": 2012,
+    "engine": "2.0 Gas hybrid",
+    "price": 18000,
+    "imageUrl": "https://www.motortrend.com/uploads/sites/10/2015/11/2012-toyota-rav4-sport-suv-angular-front.png",
+    "title": "Toyota RAV4"
+  },
+  {
+    "count": 7,
+    "id": "fc73c48a80a2",
+    "year": 2019,
+    "engine": "2.0 Diesel",
+    "price": 25000,
+    "imageUrl": "https://diag38.ru/wp-content/uploads/mitsubishi-outlander-2019-tehnicheskie-harakteristiki_2.jpg",
+    "title": "Mitsubishi Outlander"
+  },
+  {
+    "count": 12,
+    "id": "fc73c48a80a1",
+    "year": 2015,
+    "engine": "2.2 Gas",
+    "price": 22000,
+    "imageUrl": "https://s.pn.com.ua/i/md/3011/honda_cr_v_2015/honda_cr_v_2015_00p.jpg",
+    "title": "Honda CR-V"
+  },
+  {
+    "count": 7,
+    "id": "fc73c48a80a6",
+    "year": 2012,
+    "engine": "4.4 Gas",
+    "price": 19000,
+    "imageUrl": "https://volynonline.com/wp-content/uploads/2020/03/71sUz0xDmXL.jpg",
+    "title": "BMW X5"
+  },
+  {
+    "count": 8,
+    "id": "fc73348a80a7",
+    "year": 2018,
+    "engine": "3.0 Gas",
+    "price": 28000,
+    "imageUrl": "https://images.dealer.com/ddc/vehicles/2018/Mercedes-Benz/GLE%20350/SUV/trim_Base_b30f89/color/Polar%20White-149-227%2C228%2C232-640-en_US.jpg",
+    "title": "Mercedes-Benz GLE 350"
+  },
+  {
+    "count": 2,
+    "id": "fc73c48a80a8",
+    "year": 2016,
+    "engine": "Electric",
+    "price": 41000,
+    "imageUrl": "https://file.kelleybluebookimages.com/kbb/base/house/2016/2016-Tesla-Model%20X-FrontSide_TEMX1601_640x480.jpg",
+    "title": "Tesla Model X"
+  },
+  {
+    "count": 3,
+    "id": "fc73c48a80a9",
+    "year": 2018,
+    "engine": "3.5 Gas",
+    "price": 26000,
+    "imageUrl": "https://pngimg.com/uploads/acura/acura_PNG62.png",
+    "title": "Acura MDX"
+  }
+]

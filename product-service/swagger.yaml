@@ -1,0 +1,80 @@
+---
+swagger: 2.0
+info:
+  description: NodeJS in AWS program demakoff app
+  version: 1.0.0
+  title: Product service API
+host: virtserver.swaggerhub.com
+basePath: /demakov/Product-service/1.0.0
+schemes:
+- https
+paths:
+  /products:
+    get:
+      summary: searches products
+      operationId: searchProducts
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        "200":
+          description: search results matching criteria
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Product'
+        "404":
+          description: Products not found
+  /products/{productId}:
+    get:
+      summary: searches particular product by product ID
+      description: Returns a single product
+      operationId: searchById
+      produces:
+      - application/json
+      parameters:
+      - name: productId
+        in: path
+        description: ID of product to return (12 hex digits)
+        required: true
+        type: string
+      responses:
+        "200":
+          description: successful operation
+          schema:
+            $ref: '#/definitions/Product'
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Product not found
+definitions:
+  Product:
+    type: object
+    required:
+    - engine
+    - id
+    - imageUrl
+    - price
+    - title
+    - year
+    properties:
+      id:
+        type: string
+        format: 12 hex digits
+        example: d701748f0851
+      year:
+        type: number
+        format: year
+        example: 2020.0
+      engine:
+        type: string
+        example: 2.5 Gas
+      imageUrl:
+        type: string
+        example: https://my.api.com/random.jpg
+      title:
+        type: string
+        example: The best product
+      price:
+        type: number
+        example: 20000.0
