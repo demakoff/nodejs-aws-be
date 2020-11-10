@@ -1,5 +1,6 @@
 import {APIGatewayProxyHandler} from 'aws-lambda';
 import { getProductListFromDB } from './db/getProductsListFromDB';
+import { CustomError } from "./utils/CustomError";
 
 export const getProductsList: APIGatewayProxyHandler = async () => {
 
@@ -7,7 +8,10 @@ export const getProductsList: APIGatewayProxyHandler = async () => {
         const ProductsList = await getProductListFromDB();
 
         if (!ProductsList || !ProductsList.length) {
-            throw new Error('Products not found');
+            throw new CustomError({
+                message: 'Products not found',
+                code: 404
+            });
         }
 
         return {
@@ -17,7 +21,7 @@ export const getProductsList: APIGatewayProxyHandler = async () => {
 
     } catch(err) {
         return {
-            statusCode: 404,
+            statusCode: err.code,
             body: err.message
         };
     }
