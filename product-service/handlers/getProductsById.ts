@@ -5,6 +5,8 @@ import { getProductByIdFromDB } from './db/getProductByIdFromDB';
 
 export const getProductsById: APIGatewayProxyHandler = async (event) => {
 
+    console.log(JSON.stringify(event));
+
     try {
         const { id } = event.pathParameters || {};
 
