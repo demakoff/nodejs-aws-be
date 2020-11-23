@@ -10,7 +10,7 @@ export async function addProductToDB(data: ProductExtended): Promise<Product[]> 
             BEGIN;
             
             WITH new_product AS (
-              INSERT INTO products (title, year, engine, price, imageUrl) VALUES
+              INSERT INTO products (title, year, engine, price, image_url) VALUES
                 ('${title}', ${year}, '${engine}', ${price}, '${imageUrl}')
               RETURNING id
             )

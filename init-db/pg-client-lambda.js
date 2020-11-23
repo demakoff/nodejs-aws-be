@@ -30,8 +30,7 @@ module.exports.initDB = async event => {
                 year smallint,
                 engine text,
                 price integer,
-                imageUrl text
-                
+                image_url text
             )`);
         console.log('ddlResult: ' + JSON.stringify(ddlResult.rows));
         const ddlResult2 = await client.query(`  
@@ -46,7 +45,7 @@ module.exports.initDB = async event => {
 
         // make initial dml queries
         const dmlResult = await client.query(`
-            insert into products (title, year, engine, price, imageUrl) values
+            insert into products (title, year, engine, price, image_url) values
                 ('Nissan X-Trail', 2019, '2.5 Gas', 24000, 'https://www-europe.nissan-cdn.net/content/dam/Nissan/nissan_europe/Configurator/Xtrail/p32r/grade/17TDIEULHD_X-TRAIL_VISIA_AMBER_001_UA.jpg.ximg.l_3_m.smart.jpg'),
                 ('Toyota RAV4', 2012, '2.0 Gas hybrid', 18000, 'https://www.motortrend.com/uploads/sites/10/2015/11/2012-toyota-rav4-sport-suv-angular-front.png'),
                 ('Mitsubishi Outlander', 2019, '2.0 Diesel', 25000, 'https://diag38.ru/wp-content/uploads/mitsubishi-outlander-2019-tehnicheskie-harakteristiki_2.jpg'),
