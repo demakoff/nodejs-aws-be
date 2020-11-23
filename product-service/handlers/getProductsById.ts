@@ -5,17 +5,20 @@ import { getProductByIdFromDB } from './db/getProductByIdFromDB';
 
 export const getProductsById: APIGatewayProxyHandler = async (event) => {
 
+    console.log(JSON.stringify(event));
+
     try {
         const { id } = event.pathParameters || {};
 
-        if (!/^[0-9a-f]{12}$/.test(id)) {
+        // if (!/^[0-9a-f]{12}$/.test(id)) {
+        if (!/^\d{1,10}$/.test(id)) {
             throw new CustomError({
                 message: 'Invalid ID supplied',
                 code: 400
             });
         }
 
-        const product = await getProductByIdFromDB(id);
+        const product = (await getProductByIdFromDB(id))[0];
 
         if (!product) {
             throw new CustomError({
