@@ -2,7 +2,6 @@
   "name": "import-service",
   "version": "1.0.0",
   "description": "",
-  "main": "handler.js",
   "scripts": {
     "deploy": "webpack && sls deploy"
   },
@@ -11,7 +10,8 @@
   "license": "ISC",
   "dependencies": {
     "aws-sdk": "^2.797.0",
-    "csv-parser": "^2.3.3"
+    "csv-parser": "^2.3.3",
+    "pg": "^8.5.1"
   },
   "devDependencies": {
     "serverless": "^2.12.0",

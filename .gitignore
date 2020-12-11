@@ -1,0 +1,4 @@
+node_modules
+.serverless
+
+db_creds.json
