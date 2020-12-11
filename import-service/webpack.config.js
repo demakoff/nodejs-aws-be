@@ -1,9 +1,10 @@
 const path = require('path');
+const { IgnorePlugin } = require('webpack');
 
 module.exports = {
     mode: 'production', // "production" | "development" | "none"
     // Chosen mode tells webpack to use its built-in optimizations accordingly.
-    entry: './handler.js', // string | object | array
+    entry: './handlers/index.js', // string | object | array
     // defaults to ./src
     // Here the application starts executing
     // and webpack starts bundling
@@ -15,5 +16,10 @@ module.exports = {
         filename: 'handler.js', // string (default)
         libraryTarget: 'commonjs'
     },
-    target: 'node'
+    target: 'node',
+    plugins: [
+        new IgnorePlugin({
+            resourceRegExp: /^pg-native$/,
+        }),
+    ]
 };

@@ -1,39 +1,9 @@
-'use strict';
-
-const S3 = require('aws-sdk/clients/s3');
+const AWS = require('aws-sdk');
 const csv = require('csv-parser');
 
 const BUCKET = 'lesson-5-uploaded';
-const PREFIX = 'uploaded/';
 const REGION = 'eu-west-1';
-
-module.exports.importProductsFile = async event => {
-
-    const s3 = new S3({ region: REGION });
-
-    let statusCode = 200;
-    let body;
-
-    const params = {
-        Bucket: BUCKET,
-        Key: PREFIX + event.queryStringParameters.name,
-        Expires: 60,
-        ContentType: 'text/csv'
-    };
-
-    try {
-        body = await s3.getSignedUrlPromise('putObject', params);
-
-    } catch (e) {
-        body = e;
-        statusCode = 500;
-    }
-
-    return {
-        statusCode,
-        body
-    };
-};
+const PREFIX = 'uploaded';
 
 module.exports.importFileParser = async event => {
     let statusCode = 200;
@@ -43,7 +13,7 @@ module.exports.importFileParser = async event => {
 
     console.log('!!! event: ' + JSON.stringify(event));
 
-    const s3 = new S3({ region: REGION });
+    const s3 = new AWS.S3({ region: REGION });
 
     const params = {
         Bucket: BUCKET,
@@ -56,7 +26,22 @@ module.exports.importFileParser = async event => {
         const blocker = new Promise((res, rej) => {
             readStream
                 .pipe(csv({ separator: '\t' }))
-                .on('data', data => console.log('DATA: ' + JSON.stringify(data)))
+                .on('data', data => {
+                    console.log('DATA: ' + JSON.stringify(data));
+
+                    const sqs = new AWS.SQS();
+
+                    sqs.sendMessage({
+                        QueueUrl: process.env.SQS_URL,
+                        MessageBody: JSON.stringify(data)
+                    }, (err, data) => {
+                        if (err) {
+                            console.log("Error", err);
+                        } else {
+                            console.log("Success", data.MessageId);
+                        }
+                    })
+                })
                 .on('error', error => {
                     console.log('Error during file reading: ' + error);
                     rej();
@@ -71,7 +56,7 @@ module.exports.importFileParser = async event => {
         await s3.copyObject({
             Bucket: BUCKET,
             CopySource: BUCKET + '/' + key,
-            Key: key.replace('uploaded', 'parsed')
+            Key: key.replace(PREFIX, 'parsed')
         }).promise();
 
         await s3.deleteObject({
