@@ -14,8 +14,8 @@ provider:
     PG_HOST: lesson4.cmlihsvlmgnc.eu-west-1.rds.amazonaws.com
     PG_PORT: 5432
     PG_DATABASE: lesson4
-    PG_USERNAME: ${file(../db_creds.json):username}
-    PG_PASSWORD: ${file(../db_creds.json):password}
+    PG_USERNAME: ${file(../env_config.json):db_username}
+    PG_PASSWORD: ${file(../env_config.json):db_password}
 
 
 functions:

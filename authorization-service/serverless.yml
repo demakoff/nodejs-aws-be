@@ -11,14 +11,22 @@
 #
 # Happy Coding!
 
-service: import-service
+service: authorization-service
 # app and org for use with dashboard.serverless.com
 #app: your-app-name
 #org: your-org-name
+plugins:
+  - serverless-dotenv-plugin
 
 # You can pin your service to only deploy with a specific Serverless version
 # Check out our docs for more details
 frameworkVersion: '2'
+
+custom:
+  dotenv:
+    basePath: ../
+    required:
+      file: true
 
 provider:
   name: aws
@@ -26,42 +34,21 @@ provider:
   stage: dev
   region: eu-west-1
 
-  environment:
-    PG_HOST: lesson4.cmlihsvlmgnc.eu-west-1.rds.amazonaws.com
-    PG_PORT: 5432
-    PG_DATABASE: lesson4
-    PG_USERNAME: ${file(../env_config.json):db_username}
-    PG_PASSWORD: ${file(../env_config.json):db_password}
-
-    SQS_URL:
-      Ref: catalogItemsQueue
-    SNS_Topic:
-      Ref: createProductTopic
-
 # you can add statements to the Lambda function's IAM Role here
-  iamRoleStatements:
-    - Effect: "Allow"
-      Action:
-        - "s3:ListBucket"
-      Resource:
-        - "arn:aws:s3:::lesson-5-uploaded"
-    - Effect: "Allow"
-      Action:
-        - "s3:*"
-      Resource:
-        - "arn:aws:s3:::lesson-5-uploaded/*"
-    - Effect: "Allow"
-      Action:
-        - "sqs:*"
-      Resource:
-        - Fn::GetAtt:
-            - catalogItemsQueue
-            - Arn
-    - Effect: "Allow"
-      Action:
-        - "sns:Publish"
-      Resource:
-        - {"Ref": "createProductTopic"}
+#  iamRoleStatements:
+#    - Effect: "Allow"
+#      Action:
+#        - "s3:ListBucket"
+#      Resource: { "Fn::Join" : ["", ["arn:aws:s3:::", { "Ref" : "ServerlessDeploymentBucket" } ] ]  }
+#    - Effect: "Allow"
+#      Action:
+#        - "s3:PutObject"
+#      Resource:
+#        Fn::Join:
+#          - ""
+#          - - "arn:aws:s3:::"
+#            - "Ref" : "ServerlessDeploymentBucket"
+#            - "/*"
 
 # you can define service wide environment variables here
 #  environment:
@@ -76,70 +63,20 @@ provider:
 #    - exclude-me.js
 #    - exclude-me-dir/**
 
-resources:
-  Resources:
-    catalogItemsQueue:
-      Type: AWS::SQS::Queue
-      Properties:
-        QueueName: task-5-sqs
-
-    createProductTopic:
-      Type: AWS::SNS::Topic
-      Properties:
-        TopicName: task-5-sns
-
-    SNSSubscription:
-      Type: AWS::SNS::Subscription
-      Properties:
-        TopicArn: {"Ref": "createProductTopic"}
-        Endpoint: d.demakov@gmail.com
-        Protocol: email
-
 functions:
-  importProductsFile:
-    handler: dist/handler.importProductsFile
-    events:
-      - http:
-          path: /import
-          method: GET
-          request:
-            parameters:
-              querystrings:
-                name: true
-          authorizer:
-            type: token
-            arn: arn:aws:lambda:eu-west-1:425443829609:function:authorization-service-dev-basicAuthorizer
-            identitySource: method.request.header.Authorization
-
-  importFileParser:
-    handler: dist/handler.importFileParser
-    events:
-      - s3:
-          bucket: lesson-5-uploaded
-          event: s3:ObjectCreated:*
-          rules:
-            - prefix: uploaded/
-            - suffix: .csv
-          existing: true
-
-  catalogBatchProcess:
-    handler: dist/handler.catalogBatchProcess
-    events:
-      - sqs:
-          batchSize: 5
-          arn:
-            Fn::GetAtt:
-              - catalogItemsQueue
-              - Arn
-
-
+  basicAuthorizer:
+    handler: handler.basicAuthorizer
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details
 #    events:
 #      - http:
-#          path: users/create
+#          path: token
 #          method: get
+#          cors: true
+#          authorizer:
+#            name: tokenAuthorizer
+
 #      - websocket: $connect
 #      - s3: ${env:BUCKET}
 #      - schedule: rate(10 minutes)
