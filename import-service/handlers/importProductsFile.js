@@ -6,7 +6,7 @@ const REGION = 'eu-west-1';
 
 module.exports.importProductsFile = async event => {
 
-    const s3 = new AWS.S3({ region: REGION });
+    const s3 = new AWS.S3({ region: REGION, signatureVersion: "v4" });
 
     let statusCode = 200;
     let body;

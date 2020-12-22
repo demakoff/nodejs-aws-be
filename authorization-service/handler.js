@@ -4,7 +4,7 @@ module.exports.basicAuthorizer = async (event, ctx, cb) => {
         cb('Unauthorized');
     try {
         const encodedToken = event.authorizationToken.split(' ')[1];
-        const plainCreds = Buffer.from(encodedToken, 'base64').toString('utf-8')
+        const plainCreds = Buffer.from(encodedToken, 'base64').toString('utf-8');
         const [username = '', password = ''] = plainCreds.split(':');
 
         const ADMIN_PASSWORD = process.env[username];
